@@ -102,15 +102,18 @@ public class DailyLogService {
     public GetDailyLogResponse getDailyLogs (GetRequest request) throws DomainException {
         try{
             Long userId = request.getRequestBody().getUserId();
+            boolean userExists = userProfileRepository.existsByUserId(userId);
+            if (!userExists){
+                throw new DomainException(DomainErrorCode.USERID_NOT_AVAILABLE.getCode(),
+                        DomainErrorCode.USERID_NOT_AVAILABLE.getDesc());
+            }
+            List<LocalDate> dates = dailyLogRepository.getAllLogDates(userId);
+
             List<DailyDataLogs> logs = dailyLogRepository.getAllDailyDataById(userId);
-            if (logs.isEmpty()) {
-                throw new DomainException(DomainErrorCode.DATA_NOT_EXIST.getCode(), DomainErrorCode.DATA_NOT_EXIST.getDesc());
-            }
+
             List<AllMoodLogs> moodLogs = moodLogRepository.getAllMoodLogsById(userId);
-            if (moodLogs.isEmpty()) {
-                throw new DomainException(DomainErrorCode.DATA_NOT_EXIST.getCode(), DomainErrorCode.DATA_NOT_EXIST.getDesc());
-            }
-            GetDailyLogResponseBody responseBody = new GetDailyLogResponseBody(logs, moodLogs);
+
+            GetDailyLogResponseBody responseBody = new GetDailyLogResponseBody(dates, logs, moodLogs);
             ResponseHeader responseHeader = new ResponseHeader(request.getRequestHeader().getRequestId(),
                     LocalDateTime.now().toString(), DomainErrorCode.SUCCESS.getCode(), DomainErrorCode.SUCCESS.getDesc(),
                     "200");

@@ -46,8 +46,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleDomainException(DomainException ex) {
         Map<String, Object> responseHeader = Map.of(
                 "timestamp", LocalDateTime.now().toString(),
-                "code", ex.getCode(),
-                "desc", ex.getMessage()
+                "code", ex.getMessage(),
+                "desc", ex.getCode()
         );
 
         return baseController.getResponseEntity("400", Map.of("responseHeader", responseHeader));

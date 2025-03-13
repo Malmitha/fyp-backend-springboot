@@ -40,4 +40,16 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
             @Param("userId") Long userId,
             @Param("date") LocalDateTime date
     );
+
+    /**
+     * To check if the user ID exists
+     * @param userId
+     * @return
+     */
+    @Query("SELECT COUNT(*) > 0 " +
+            "FROM UserProfile up " +
+            "WHERE up.userId = :userId" )
+    Boolean existsByUserId(
+            @Param("userId") Long userId
+    );
 }

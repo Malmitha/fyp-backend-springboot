@@ -27,8 +27,9 @@ public enum DomainErrorCode {
     PREDICTION_ERROR("2019", "You can only have your mood predicted once per day. Please try again tomorrow.", HttpStatus.BAD_REQUEST),
     INVALID_DATA("2020", "The data entered is invalid.", HttpStatus.BAD_REQUEST),
     CONNECTION_ERROR("2021", "Error occurred while connecting to ML model", HttpStatus.BAD_REQUEST),
-            ;
+    USERID_NOT_AVAILABLE("2022", "Given user id doesn't exist.", HttpStatus.BAD_REQUEST),
     ;
+
 
     private final String code;
     private final String desc;

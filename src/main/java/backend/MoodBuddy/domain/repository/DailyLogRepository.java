@@ -16,28 +16,27 @@ import java.util.Optional;
 public interface DailyLogRepository extends JpaRepository<DailyDataLog, Long> {
 
     /**
-     * Query to get user data by id and date
+     * Get all logs by user ID
      * @param userId
-     * @param date
      * @return
      */
-    @Query("SELECT new backend.MoodBuddy.domain.dto.getprofile.DailyData " +
-            "(d.id, d.workHours, d.socialHours, d.entertainmentHours, d.sleepHours, d.sleepQuality, " +
-            "d.physicalActivityLevel, d.stressLevel, d.wellBeingScore) " +
-            "FROM DailyDataLog d " +
-            "WHERE (d.userId.userId = :userId) " +
-            "AND (d.logDate = :date) ")
-    Optional<DailyData> getDailyDataById(
-            @Param("userId") Long userId,
-            @Param("date") LocalDate date
-    );
-
     @Query("SELECT new backend.MoodBuddy.domain.dto.getdailylogs.DailyDataLogs " +
             "(d.id, d.logDate, d.workHours, d.socialHours, d.entertainmentHours, d.sleepHours, d.sleepQuality, " +
             "d.physicalActivityLevel, d.stressLevel, d.wellBeingScore) " +
             "FROM DailyDataLog d " +
             "WHERE (d.userId.userId = :userId) ")
     List<DailyDataLogs> getAllDailyDataById(
+            @Param("userId") Long userId
+    );
+
+    /**
+     * To get the list of logged dates
+     * @param userId
+     * @return
+     */
+    @Query("SELECT (d.logDate) FROM DailyDataLog d " +
+            "WHERE (d.userId.userId = :userId) ")
+    List<LocalDate> getAllLogDates(
             @Param("userId") Long userId
     );
 }
