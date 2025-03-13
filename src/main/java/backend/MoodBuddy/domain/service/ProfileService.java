@@ -194,12 +194,6 @@ public class ProfileService {
             if (activityInfo.isEmpty()){
                 throw new DomainException(DomainErrorCode.DATA_NOT_EXIST.getCode(), DomainErrorCode.DATA_NOT_EXIST.getDesc());
             }
-//            //Get user daily data logs
-//            Optional<DailyData> userData = dailyLogRepository.getDailyDataById(userId, LocalDate.now());
-//            if (userData.isEmpty()){
-//                throw new DomainException(DomainErrorCode.DATA_NOT_EXIST.getCode(), DomainErrorCode.DATA_NOT_EXIST.getDesc());
-//            }
-//            DailyData dailyData = userData.get();
 
             GetProfileResponseBody responseBody = new GetProfileResponseBody(profileInfo, loginInfo, hobbiesInfo,
                     activityInfo);
