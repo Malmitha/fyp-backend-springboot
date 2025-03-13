@@ -53,3 +53,4 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
             @Param("userId") Long userId
     );
 }
+
