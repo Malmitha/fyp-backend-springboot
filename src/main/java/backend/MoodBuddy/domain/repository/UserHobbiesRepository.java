@@ -24,7 +24,7 @@ public interface UserHobbiesRepository extends JpaRepository<UserHobbies, Long> 
     @Transactional
     @Query("UPDATE UserHobbies u " +
             "SET u.recordExpiryDate = :expiryDate " +
-            "WHERE (u.userId = :userId) " +
+            "WHERE (u.userId.userId = :userId) " +
             "AND (u.recordExpiryDate IS NULL OR u.recordExpiryDate >= :expiryDate) ")
     void markHobbiesAsExpired(
             @Param("userId") Long userId,
