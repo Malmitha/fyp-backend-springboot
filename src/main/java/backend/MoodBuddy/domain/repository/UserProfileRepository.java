@@ -32,7 +32,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
      * @return
      */
     @Query("SELECT new backend.MoodBuddy.domain.dto.getprofile.Profile " +
-            "(up.userId, up.firstName, up.lastName, up.nickname, up.gender, up.email, up.occupation, up.age) " +
+            "(up.userId, up.firstName, up.lastName, up.nickname, up.gender, up.email, up.occupation, up.age, up.dateOfBirth) " +
             "FROM UserProfile up " +
             "WHERE (up.userId = :userId) " +
             "AND (up.recordExpiryDate IS NULL OR up.recordExpiryDate >= :date) ")
