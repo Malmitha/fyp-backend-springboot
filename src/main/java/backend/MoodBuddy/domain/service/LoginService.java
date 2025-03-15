@@ -23,6 +23,8 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 /**
@@ -57,12 +59,11 @@ public class LoginService {
                 throw new DomainException(DomainErrorCode.INCORRECT_DATA.getCode(),
                         DomainErrorCode.INCORRECT_DATA.getDesc());
             }
-
             login.setIsLoggedIn(true);
             SessionLogs logs = new SessionLogs();
             logs.setUserId(login.getUserId().getUserId());
             logs.setLoggedInDate(LocalDate.now());
-            logs.setLoggedInTime(LocalTime.now());
+            logs.setLoggedInTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
             loginLogRepository.saveAndFlush(logs);
             userCredentialsRepository.saveAndFlush(login);
 
@@ -97,9 +98,11 @@ public class LoginService {
                 throw new DomainException(DomainErrorCode.USER_NOT_LOGGED_IN.getCode(),
                         DomainErrorCode.USER_NOT_LOGGED_IN.getDesc());
             }
-            if (userCredentialsRepository.existsByUsername(requestBody.getUsername())) {
-                throw new DomainException(DomainErrorCode.USERNAME_ALREADY_EXISTS.getCode(),
-                        DomainErrorCode.USERNAME_ALREADY_EXISTS.getDesc());
+            if (!requestBody.getUsername().equals(uc.getUsername())) {
+                if (userCredentialsRepository.existsByUsername(requestBody.getUsername())) {
+                    throw new DomainException(DomainErrorCode.USERNAME_ALREADY_EXISTS.getCode(),
+                            DomainErrorCode.USERNAME_ALREADY_EXISTS.getDesc());
+                }
             }
             if (!requestBody.getOldPassword().equals(uc.getPassword())) {
                 throw new DomainException(DomainErrorCode.PASSWORDS_DO_NOT_MATCH.getCode(),
@@ -149,7 +152,7 @@ public class LoginService {
             }
             SessionLogs log = logs.get();
             log.setLoggedOutDate(LocalDate.now());
-            log.setLoggedOutTime(LocalTime.now());
+            log.setLoggedOutTime(LocalTime.now().truncatedTo(ChronoUnit.MINUTES));
             log.setSessionDurationHours(calculateDurationInHours(log.getLoggedInTime()));
             loginLogRepository.saveAndFlush(log);
             userCredentialsRepository.saveAndFlush(logout);
