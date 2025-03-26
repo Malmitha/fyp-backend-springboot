@@ -46,5 +46,4 @@ public class LogHistoryService {
             throw new DomainException(DomainErrorCode.DATA_LOG_ERROR.getCode(), DomainErrorCode.DATA_LOG_ERROR.getDesc());
         }
     }
-
 }

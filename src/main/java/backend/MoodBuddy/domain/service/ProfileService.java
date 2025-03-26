@@ -129,7 +129,7 @@ public class ProfileService {
                 up.setEmail(requestBody.getEmail());
             }
             up.setLastUpdateDate(LocalDateTime.now());
-            userProfileRepository.saveAndFlush(profile.get());
+            userProfileRepository.saveAndFlush(up);
 
             if (requestBody.getHobbies() != null) {
                 userHobbiesRepository.markHobbiesAsExpired(userId, LocalDateTime.now());
