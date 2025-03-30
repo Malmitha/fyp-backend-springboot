@@ -61,7 +61,7 @@ public class PredictionService {
             case "Manager" -> 4;
             case "Nurse" -> 5;
             case "Sales Representative" -> 6;
-            case "Salesperson" -> 7;
+            case "Sales Person" -> 7;
             case "Scientists" -> 8;
             case "Software Engineer" -> 9;
             case "Student" -> 10;
